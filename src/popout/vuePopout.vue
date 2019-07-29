@@ -6,11 +6,13 @@
         <animation :animationName="contentAnimation">
             <div  class="popout-content" :class="{'text-alert':textNode}" @click="textNode&&close()"  v-if="is_active">
                 <alert v-if="textNode" :alertType="alertType">
-                    <template #[alertType]>
-                        <slot name="default"></slot>
-                    </template>
+                    <!-- <template #[alertType]> -->
+                       <slot></slot>
+                    <!-- </template> -->
                 </alert>
-                <slot v-else></slot>
+                <div v-else @click.stop="">
+                    <slot></slot>
+                </div>
             </div>
         </animation>
     </div>
@@ -53,8 +55,8 @@ props:{
         default:"fade"
     },
     filterOpacity:{
-        type:Number||String,
-        default:0.6
+        type:String,
+        default:"0.6"
     }
 },
 computed:{
@@ -109,14 +111,13 @@ methods:{
 }
 .popout-content{
     z-index: 1000;
-    position: relative;
-}
-.popout-content.text-alert{
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+}
+.popout-content.text-alert{
     display: flex;
     justify-content: center;
     align-items: center;

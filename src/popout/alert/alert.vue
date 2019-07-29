@@ -1,9 +1,9 @@
 <template functional>
     <div class="popout-alert">
         <span v-if="props.alertType==='default'" class="default content"><slot name="default"></slot></span>
-        <span v-if="props.alertType==='ordinary'" class="ordinary content"><slot name="ordinary"></slot></span>
-        <span v-if="props.alertType==='warn'" class="warn content"><img class="icon" src="./warn.svg"><slot name="warn"></slot></span>
-        <span v-if="props.alertType==='error'" class="error content"><img class="icon" src="./error.svg"><slot name="error"></slot></span>
+        <span v-if="props.alertType==='ordinary'" class="ordinary content"><slot name="default"></slot></span>
+        <span v-if="props.alertType==='warn'" class="warn content"><img class="icon" src="./warn.svg" name="default"><slot></slot></span>
+        <span v-if="props.alertType==='error'" class="error content"><img class="icon" src="./error.svg"><slot name="default"></slot></span>
     </div>
 </template>
 

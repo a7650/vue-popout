@@ -1,5 +1,5 @@
 ﻿/**
- * vue-popout v1.0.0
+ * vue-popout v1.0.2
  * (c) 2019 zzp
  */
 
