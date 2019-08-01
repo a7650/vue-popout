@@ -75,7 +75,7 @@ watch:{
 
 <style scoped>
 .popout{
-    color: #fff;
+    
 }
 .filter{
     position: fixed;
