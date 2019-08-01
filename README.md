@@ -8,17 +8,21 @@
 
 ### 使用方法
 
-#### 安装
+## 安装
 
 `npm install vue-popout`
 
-#### 使用
+## 使用
 
-main.js>
+```javascript
+import Vue from 'vue'
+import vuePopout from "vue-popout"
 
-      `import vuePopout from "vue-popout"`
-      
-      `Vue.use(vuePopout)`
+
+Vue.use(vuePopout)
+// 启动你的应用...
+```
+
     
 使用`Vue.use(vuePopout)`之后你将会有一个全局的popout实例（通过vm.popout访问）和注册到全局的模块`<popout>`
 
