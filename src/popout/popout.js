@@ -1,5 +1,5 @@
 ﻿/**
- * vue-popout v1.0.3
+ * vue-popout v1.0.4
  * (c) 2019 zzp
  */
 
@@ -12,8 +12,8 @@ import { isUndef, extend, urlPushParam, urlReplaceParam, storage } from "../util
  *  @prototype
  */
 
-const URL_KEY = "popout_originUrl"
-const POPOUT_DATA = {
+const URL_KEY = "popout_originUrl" 
+const POPOUT_DATA = {  
     _currentStack: [],
     stackKeyMap: {},
     reverse_stackKeyMap: {}
@@ -51,12 +51,17 @@ Object.defineProperty(POPOUT_DATA, "currentStack", {
     }
 })
 
+function initData(){
+    POPOUT_DATA.currentStack = [];
+    POPOUT_DATA.stackKeyMap = {};
+    POPOUT_DATA.reverse_stackKeyMap = {};
+}
+
 export class Popout {
     constructor() {
         this.init();
     }
     init() {
-        //初始化时应使所有窗口为关闭状态，且当前url设置为originurl。
         this.originUrl = "";
         POPOUT_DATA.currentStack = [];
         POPOUT_DATA.stackKeyMap = {};
@@ -67,14 +72,14 @@ export class Popout {
                 return
             }
             let popoutVal = (new RegExp("[?|&]popout=([^&;]+?)(&|#|;|$)").exec(location.href) || [, ""])[1].replace(/\+/g, '%20') || null;
-            if (!popoutVal) {
-                POPOUT_DATA.currentStack = [];
-            } else {
-                let popoutName = POPOUT_DATA.stackKeyMap[popoutVal];
-                let closeIndex = POPOUT_DATA.currentStack.indexOf(popoutName);
-                if (closeIndex > -1) {
-                    POPOUT_DATA.currentStack = [...POPOUT_DATA.currentStack].splice(0, closeIndex + 1);
-                }
+            let popoutName = POPOUT_DATA.stackKeyMap[popoutVal];
+            if (!(popoutVal&&popoutName)){
+                initData();
+                return
+            }
+            let closeIndex = POPOUT_DATA.currentStack.indexOf(popoutName);
+            if (closeIndex > -1) {
+                POPOUT_DATA.currentStack = [...POPOUT_DATA.currentStack].splice(0, closeIndex + 1);
             }
         }
     }
@@ -109,9 +114,7 @@ export class Popout {
     }
     closeAll() {
         ACTIVE_CONTROL = true;
-        POPOUT_DATA.currentStack = [];
-        POPOUT_DATA.stackKeyMap = {};
-        POPOUT_DATA.reverse_stackKeyMap = {};
+        initData();
         return this
     }
     open(name, duration) {
