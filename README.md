@@ -1,7 +1,7 @@
 # 🛸vue-popout
 ### vue弹窗管理，可以方便管理你的应用窗口，可以像原生app一样使用左滑/后退来进行操控。
 
-[npm v1.0.2][npm-url]
+[npm v1.0.3][npm-url]
 
 
 [npm-url]: https://www.npmjs.com/package/vue-popout
@@ -71,18 +71,23 @@ main.js>
 #### 🌴popout方法（popout中所有方法都支持链式调用）
      
       `open([name(必须)|String],[duration(可选)|String])`:打开某个窗口，name为popout模块的name，duration为打开的时间/ms，
+      
             即一定时间后会关闭该窗口如果不传入duration参数则不会执行关闭动作。
       
       `back()`:回退，即关闭上一个窗口。
       
       `close([name(必须)|String],[flag(可选)|String])`:关闭窗口，name为要关闭窗口的名称，flag为一个标识符，可以传入next或
-            previous，分别表示关闭名字为name的窗口的后一个或前一个窗口。*注意：在关闭某一个窗口时，所有在此窗口之后打开的窗口都会被关闭。
+      
+            previous，分别表示关闭name窗口的后一个或前一个窗口。
+            
+            *注意：在关闭某一个窗口时，所有在此窗口之后打开的窗口都会被关闭。
       
       `closeAll()`:关闭所有窗口。
       
       `currentStack()`:查看当前打开的窗口，返回一个数组，数组的顺序为窗口打开的顺序。
       
       `stackKeyMap()`:查看popoutVal(与窗口name对应的唯一随机序列，与地址栏中popout的值对应)与窗口name的对应关系。
+      
             *注意：popoutVal值只使用一次，每次打开窗口都会有一个新的值生成，所以你只能查看当前打开的窗口的stackKeyMap。
 
 
