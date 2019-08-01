@@ -62,8 +62,6 @@ main.js>
       
       `filterOpacity`(String):背景透明度，为0-1之间的数值，默认值为0.6.
      
-     
- 
 
 
 

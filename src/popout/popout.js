@@ -1,5 +1,5 @@
 ﻿/**
- * vue-popout v1.0.2
+ * vue-popout v1.0.3
  * (c) 2019 zzp
  */
 
@@ -11,9 +11,6 @@ import { isUndef , extend , urlPushParam , urlReplaceParam , storage} from "../u
  *  @Popout
  *  @prototype
  */
-
-//全部打开后，回退到最后两个的时候会出错
-
 
 const URL_KEY = "popout_originUrl"
 let ACTIVE_CONTROL = false
@@ -69,20 +66,19 @@ export class Popout {
                 self.currentStack = [];
             }else{
                 let popoutName = self.stackKeyMap[popoutVal];
-                /**@关闭name的后一个 */
-
+                let closeIndex = self.currentStack.indexOf(popoutName);
+                if(closeIndex>-1){
+                    self.currentStack = [...self.currentStack].splice(0,closeIndex+1);
+                }
             }
         }
     }
     back(){
         ACTIVE_CONTROL = true;
         if(this.currentStack.length>0){
-            this.currentStack = this.currentStack.splice(0,this.currentStack.length-1);
+            this.currentStack = [...this.currentStack].splice(0,this.currentStack.length-1);
         }
         return this
-        //回到栈的上一个，同时栈顶数据删除，
-        //如果栈为空，执行清除数据
-        //
     }
     close(name,flag){
         ACTIVE_CONTROL = true;
@@ -90,8 +86,7 @@ export class Popout {
         if(name){
             let closeIndex = this.currentStack.indexOf(name);
             if(closeIndex>-1){
-                this.currentStack = this.currentStack.splice(0,closeIndex+flagIndex);
-                console.log(this.currentStack)
+                this.currentStack = [...this.currentStack].splice(0,closeIndex+flagIndex);
             }else{
                 debug.warn(`Window '${name}' does not exist or is not active`)
             }
@@ -101,13 +96,17 @@ export class Popout {
     closeAll(){
         ACTIVE_CONTROL = true;
         this.currentStack = [];
-        //关闭所有，清空数据，
+        return this
     }
     open(name,duration){
         ACTIVE_CONTROL = true;
         if(!name){
             debug.warn("The 'open' function should pass in at least one name as a parameter");
-            return
+            return this
+        }
+        if(this.reverse_stackKeyMap[name]){
+            debug.warn(`Window '${name}' is already open`);
+            return this
         }
         if(this.currentStack.length===0){
             storage.set(URL_KEY,location.href);
@@ -116,7 +115,6 @@ export class Popout {
         let _currentStack = [...this.currentStack];
         _currentStack.push(name);
         this.currentStack = _currentStack;
-        console.log(this.currentStack)
         //close
         let _duration = parseInt(duration);
         if(_duration>0){
@@ -124,6 +122,7 @@ export class Popout {
                 this.close(name)
             },_duration)
         }
+        return this
     }
 }
 

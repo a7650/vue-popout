@@ -56,17 +56,18 @@ methods:{
 },
 watch:{
     "$route.query"(newVal){
-        let popoutVal = newVal.popout;
-        if(!popoutVal){
-            this.is_active = false;
-            return
-        }
-        if(this.popout.stackKeyMap[newVal.popout]===this.name){
-            this.is_active = true
-        }else if(!this.popout.currentStack.includes(this.name)){
-            console.log(this.name+"close")
-            this.is_active = false;
-        }
+        setTimeout(()=>{
+            let popoutVal = newVal.popout;
+            if(!popoutVal){
+                this.is_active = false;
+                return
+            }
+            if(this.popout.stackKeyMap[newVal.popout]===this.name){
+                this.is_active = true
+            }else if(!this.popout.currentStack.includes(this.name)){
+                this.is_active = false;
+            }
+        })
     }
 }
 }
