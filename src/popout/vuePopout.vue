@@ -62,9 +62,9 @@ watch:{
                 this.is_active = false;
                 return
             }
-            if(this.popout.stackKeyMap[newVal.popout]===this.name){
+            if(this.popout.stackKeyMap()[newVal.popout]===this.name){
                 this.is_active = true
-            }else if(!this.popout.currentStack.includes(this.name)){
+            }else if(!this.popout.currentStack().includes(this.name)){
                 this.is_active = false;
             }
         })
