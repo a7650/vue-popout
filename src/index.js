@@ -6,13 +6,11 @@
 /* eslint-disable */
 
 import vuePopout from './popout/vuePopout.vue';
-import * as fun from './popout/popout.js'
+import { Popout } from './popout/popout.js'
 
 export default {
-    install(Vue,options){
-
+    install(Vue){
         Vue.component("popout",vuePopout);
-
-        Vue.prototype.popout = fun.popout
+        Vue.prototype.popout = new Popout();
     }
 }

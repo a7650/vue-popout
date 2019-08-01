@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 export function warn(msg) {
-  console.error(`[Vue-popout warn]: ${msg}`)
+  console.warn(`[Vue-popout warn]: ${msg}`)
 }
 
 export function assert(condition, msg) {

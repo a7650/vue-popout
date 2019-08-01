@@ -1,14 +1,12 @@
 <template>
     <div class="popout">
-        <animation :animationName="filterAnimation">
-            <div class="filter" @click="close" v-if="is_active" :style="{'background-color':`rgba(0,0,0,${filterOpacity})`}"></div>
+        <animation :animationName="in_filterAnimation">
+            <div class="filter" @click="close" v-if="is_active" :style="{'background-color':`rgba(0,0,0,${in_filterOpacity})`}"></div>
         </animation>
-        <animation :animationName="contentAnimation">
-            <div  class="popout-content" :class="{'text-alert':textNode}" @click="textNode&&close()"  v-if="is_active">
-                <alert v-if="textNode" :alertType="alertType">
-                    <!-- <template #[alertType]> -->
+        <animation :animationName="in_contentAnimation">
+            <div  class="popout-content" :class="{'text-alert':textNode}" @click="close()"  v-if="is_active">
+                <alert v-if="textNode" :alertType="in_type">
                        <slot></slot>
-                    <!-- </template> -->
                 </alert>
                 <div v-else @click.stop="">
                     <slot></slot>
@@ -22,63 +20,25 @@
 /* eslint-disable */
 import animation from './animation'
 import alert from './alert/alert'
+import {rootComponent} from './mixin/mixin' 
 export default {
+mixins:[rootComponent],
 name:"vuePopout",
 inheritAttrs:false,
 components:{animation,alert},
 data(){
     return{
-
-    }
-},
-props:{
-    name:{
-        type:String,
-        default:"default"
-    },
-    stack:{
-        type:Array,
-        default(){
-            return []
-        }
-    },
-    type:{
-        type:String,
-        default:"default"
-    },
-    contentAnimation:{
-        type:String,
-        default:"fade"
-    },
-    filterAnimation:{
-        type:String,
-        default:"fade"
-    },
-    filterOpacity:{
-        type:String,
-        default:"0.6"
+        is_active:false
     }
 },
 computed:{
-    in_stack(){
-        return this.stack.unshift("root")
-    },
-    is_active(){
-        return this.$route.query.popout===this.name
-    },
+    // is_active(){
+    //     // return this.$route.query.popout===this.name
+    //     return this.popout.currentStack.includes(this.name)
+    // },
     textNode(){
-        return ["ordinary","warn","error"].includes(this.type)
+        return this.in_type!=="default"
     },
-    alertType(){
-        if(["ordinary","warn","error"].includes(this.type)){
-            return `${this.type}`
-        }else{
-            return "default"
-        }
-    },
-    alertMes(){
-        return "alertMes"
-    }
 },
 directives:{
     stop:{
@@ -91,7 +51,22 @@ directives:{
 },
 methods:{
     close(){
-        this.$router.back()
+        this.popout.back()
+    }
+},
+watch:{
+    "$route.query"(newVal){
+        let popoutVal = newVal.popout;
+        if(!popoutVal){
+            this.is_active = false;
+            return
+        }
+        if(this.popout.stackKeyMap[newVal.popout]===this.name){
+            this.is_active = true
+        }else if(!this.popout.currentStack.includes(this.name)){
+            console.log(this.name+"close")
+            this.is_active = false;
+        }
     }
 }
 }
